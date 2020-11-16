@@ -1,11 +1,10 @@
-
 // Html elements
-const { desktopCapturer, remote } = require('electron')
+const { desktopCapturer, remote } = require("electron")
 const { Menu } = remote
-const videoElement = document.getElementById('video')
-const startBtn = document.getElementById('startBtn')
-const stopBtn = document.getElementById('stopBtn')
-const videoSelectBtn = document.getElementById('videoSelectBtn')
+const videoElement = document.getElementById("video")
+const startBtn = document.getElementById("startBtn")
+const stopBtn = document.getElementById("stopBtn")
+const videoSelectBtn = document.getElementById("videoSelectBtn")
 
 const selectSource = async (source) => {
   videoSelectBtn.innterText = source.name
@@ -14,10 +13,10 @@ const selectSource = async (source) => {
     audio: false,
     video: {
       mandatory: {
-        chromeMediaSource: 'desktop',
-        chromeMediaSourceId: source.id
-      }
-    }
+        chromeMediaSource: "desktop",
+        chromeMediaSourceId: source.id,
+      },
+    },
   }
 
   const stream = await navigator.mediaDevices.getUserMedia(constraints)
@@ -28,19 +27,19 @@ const selectSource = async (source) => {
 
 const getVideoResources = async () => {
   const inputSources = await desktopCapturer.getSources({
-    types: ['window', 'screen']
+    types: ["window", "screen"],
   })
-  
+
   const videoOptionsMenu = Menu.buildFromTemplate(
-    inputSources.map(source => {
+    inputSources.map((source) => {
       return {
         label: source.name,
-        click: () => selectSource(source)
+        click: () => selectSource(source),
       }
     })
-    )
+  )
 
-    videoOptionsMenu.popup()
-  }
+  videoOptionsMenu.popup()
+}
 
 videoSelectBtn.onclick = getVideoResources
